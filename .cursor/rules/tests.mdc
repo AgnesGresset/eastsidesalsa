@@ -1,0 +1,14 @@
+---
+description: Colocated Vitest conventions
+globs: "**/*.test.ts,**/*.test.tsx"
+alwaysApply: false
+---
+
+# Tests
+
+- Put `*.test.ts` / `*.test.tsx` next to the component or util they cover.
+- Use `it.each` for the same assertion across inputs, including edge cases.
+- Share setup when two tests would repeat it. Do not build a helper for one call.
+- `unknown` is allowed for a mock. `any` is not.
+
+When you add or change a test, follow the `verify-tests` skill: run the file, break one expected value, confirm the failure, restore it, confirm the pass.

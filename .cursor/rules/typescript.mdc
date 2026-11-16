@@ -1,0 +1,24 @@
+---
+description: TypeScript types for app and test code
+globs: "**/*.{ts,tsx}"
+alwaysApply: false
+---
+
+# TypeScript
+
+- Annotate parameters and return types. `strict` stays on.
+- No `any`. No type assertions (`as`, angle-bracket casts). `as const` is fine.
+- Do not pass `undefined` through the app. At a boundary such as `process.env`, narrow to a concrete value and return that.
+
+```ts
+// ❌
+function readRobots(env: NodeJS.ProcessEnv): string | undefined {
+  return env.ROBOTS
+}
+
+// ✅ narrow at the boundary, then pass a string
+const { ROBOTS = "index, follow" } = process.env
+robotsFromEnv(ROBOTS)
+```
+
+In tests, a mock may use `unknown` when the real type is not worth building.

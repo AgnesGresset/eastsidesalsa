@@ -1,0 +1,17 @@
+{$PROD_SITE_ADDRESS} {
+	reverse_proxy web:3000
+}
+
+{$STAGE_SITE_ADDRESS} {
+	basic_auth {
+		{$STAGE_AUTH_USER} {$STAGE_AUTH_HASH}
+	}
+	header X-Robots-Tag "noindex, nofollow"
+	handle /robots.txt {
+		respond `User-agent: *
+Disallow: /` 200
+	}
+	handle {
+		reverse_proxy web-stage:3000
+	}
+}

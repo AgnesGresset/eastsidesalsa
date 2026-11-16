@@ -1,0 +1,20 @@
+---
+description: Code style for this project
+alwaysApply: true
+---
+
+# Code style
+
+- Write the smallest code that stays obvious.
+- Comments only when the why is not visible in the code. No JSDoc. No comments in JSX.
+- Pure shared functions go in `utils/`. Hooks sit next to the component that uses them.
+- Do not add `lib/` for first-party code. Leave that name for a third-party wrapper later.
+- Write nav and footer links in those components. Do not add a content module for them.
+
+```tsx
+// ❌ a folder of page copy for two links
+export const mainNav = [{ href: "/projects", label: "Projects" }]
+
+// ✅ the links live in the component that renders them
+const links = [{ href: "/projects", label: "Projects" }] as const
+```

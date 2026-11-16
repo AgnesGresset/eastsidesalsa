@@ -1,0 +1,19 @@
+---
+description: Tailwind tokens and shared class strings
+globs: "**/*.{tsx,css}"
+alwaysApply: false
+---
+
+# Tailwind
+
+- Colors come from the `@theme` tokens in `app/globals.css`: `primary`, `secondary`, `tertiary`.
+- When the same class string appears twice, export one constant or use one component.
+- Do not add a wrapper that only renames a single element.
+
+```tsx
+// ❌ the same classes copied onto every anchor
+<a className="text-primary underline decoration-secondary" href="/about">
+
+// ✅
+<TextLink href="/about">About</TextLink>
+```

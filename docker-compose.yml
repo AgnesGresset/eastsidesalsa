@@ -1,0 +1,39 @@
+services:
+  web:
+    image: eastsidesalsa:prod
+    build:
+      context: .
+      args:
+        ROBOTS: "index, follow"
+    restart: unless-stopped
+
+  web-stage:
+    image: eastsidesalsa:stage
+    build:
+      context: .
+      args:
+        ROBOTS: "noindex, nofollow"
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      - web
+      - web-stage
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      PROD_SITE_ADDRESS: ${PROD_SITE_ADDRESS:-example.com}
+      STAGE_SITE_ADDRESS: ${STAGE_SITE_ADDRESS:-stage.example.com}
+      STAGE_AUTH_USER: ${STAGE_AUTH_USER:-stage}
+      STAGE_AUTH_HASH: ${STAGE_AUTH_HASH:-}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  caddy_data:
+  caddy_config:
